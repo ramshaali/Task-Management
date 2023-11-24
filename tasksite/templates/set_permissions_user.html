@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Set User Permissions</h1>
+<p>Set the permissions for {{ user.email }}:</p>
+<form method="post">
+  {% csrf_token %}
+  <label for="is_owner">Task Owner:</label>
+  <input type="checkbox" name="is_owner" {% if permissions.is_owner %}checked="checked"{% endif %} value="True">
+  <br>
+  <label for="can_edit">Can Edit:</label>
+  <input type="checkbox" name="can_edit" {% if permissions.can_edit %}checked="checked"{% endif %} value="True">
+  <br>
+  <label for="can_delete">Can Delete:</label>
+  <input type="checkbox" name="can_delete" {% if permissions.can_delete %}checked="checked"{% endif %} value="True">
+  <br><br>
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

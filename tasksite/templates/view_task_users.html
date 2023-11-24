@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Task Users</h1>
+<table>
+  <tr>
+    <th>Username</th>
+    <th>Task Owner</th>
+    <th>Can Edit</th>
+    <th>Can Delete</th>
+    <th>Actions</th>
+  </tr>
+  {% for task_user in assigned_users %}
+    <tr>
+      <td>{{ task_user.user.username }}</td>
+      <td>{% if task_user.is_owner %}Yes{% else %}No{% endif %}</td>
+      <td>{% if task_user.can_edit %}Yes{% else %}No{% endif %}</td>
+      <td>{% if task_user.can_delete %}Yes{% else %}No{% endif %}</td>
+      <td>
+        {% if request.user == task.owner and not task_user.is_owner %}
+          <a href="{% url 'set_permissions' task.code task_user.user.id %}">Set Permissions</a>
+          | <a href="{% url 'remove_user' task.code task_user.user.id %}">Remove</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="5">No users found.</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

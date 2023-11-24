@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h1>Task details</h1>
+  <h2>{{ task.title }}</h2>
+  <p>{{ task.description }}</p>
+  <p>Due date: {{ task.due_date }}</p>
+  <p>Created date: {{ task.created_date }}</p>
+  <p>Code: {{ task.code }}</p>
+  <p>Owner: {{ task.owner.username }}</p>
+  
+  {% for task_user in assigned_users %}
+
+  
+  {% if task_user.can_edit %}
+
+<div>
+<a href="{% url 'update_task' task.code %}">Edit Task</a>
+</div>
+{% endif %}
+
+{% endfor %}
+{% if task.owner.username == request.user.username %}
+<div>
+<a href="{% url 'close_task' task.code %}">Close Task</a>
+<a href="{% url 'delete_task' task.code %}">Delete Task</a>
+<a href="{% url 'invite_user' task.code %}">Add user</a>
+<a href="{% url 'view_task_users' task.code %}">View task users</a>
+<a href="{% url 'update_task' task.code %}">Edit Task</a>
+</div>
+{% endif %}
+{% endblock %}
+
